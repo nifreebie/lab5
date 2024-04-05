@@ -2,17 +2,16 @@ package org.example.command_handlers;
 
 import org.example.command_support.Command;
 import org.example.command_support.CommandHandler;
-import org.example.command_support.CommandManager;
 import org.example.commands.HelpCommand;
-import org.example.controller.ReqWriter;
-import org.example.service.AppContainer;
+import org.example.utils.ResponseWriter;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class HelpCommandHandler extends CommandHandler<HelpCommand> {
     @Override
-    public String handle(HelpCommand command) {
+    public void handle(HelpCommand command) {
+        ResponseWriter responseWriter = this.app.getResponseWriter();
         ArrayList<String[]> help_out = new ArrayList<>();
         File directory = new File("src/main/java/org/example/commands");
         String[] commandClasses = directory.list();
@@ -30,10 +29,9 @@ public class HelpCommandHandler extends CommandHandler<HelpCommand> {
                 help_out.add(com_desc);
             }
         }
-        this.app.getResponseWriter().write("Список команд:");
+        responseWriter.write("Список команд:");
         for (String[] comhelp : help_out) {
-            this.app.getResponseWriter().write(comhelp[0] +": "+ comhelp[1]);
+            responseWriter.write(comhelp[0] +": "+ comhelp[1]);
         }
-        return "";
     }
 }

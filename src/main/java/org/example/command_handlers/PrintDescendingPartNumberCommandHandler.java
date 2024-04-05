@@ -4,13 +4,12 @@ import org.example.command_support.CommandHandler;
 import org.example.command_support.PartNumberProductComparator;
 import org.example.command_support.ProductComparator;
 import org.example.commands.PrintFieldDescendingPartNumberCommand;
-import org.example.controller.ReqWriter;
 import org.example.dao.CollectionManager;
 import org.example.model.Product;
 
 public class PrintDescendingPartNumberCommandHandler extends CommandHandler<PrintFieldDescendingPartNumberCommand> {
     @Override
-    public String handle(PrintFieldDescendingPartNumberCommand command) {
+    public void handle(PrintFieldDescendingPartNumberCommand command) {
         CollectionManager collectionManager = this.app.getCollectionManager();
         PartNumberProductComparator comparator = new PartNumberProductComparator();
         collectionManager.sort(comparator);
@@ -19,6 +18,5 @@ public class PrintDescendingPartNumberCommandHandler extends CommandHandler<Prin
         }
         ProductComparator productComparator = new ProductComparator();
         collectionManager.sort(productComparator);
-        return null;
     }
 }

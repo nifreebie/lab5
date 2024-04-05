@@ -8,7 +8,6 @@ import org.example.command_support.exceptions.NoArgumentException;
 import org.example.command_support.exceptions.StopExecuteScriptException;
 import org.example.commands.ExecuteScriptCommand;
 import org.example.controller.ConsoleManager;
-import org.example.controller.ReqWriter;
 import org.example.utils.BufferedLineReader;
 import org.example.utils.ResponseWriter;
 
@@ -21,11 +20,12 @@ import java.lang.reflect.InvocationTargetException;
 public class ExecuteScriptCommandHandler extends CommandHandler<ExecuteScriptCommand> {
 
     @Override
-    public String handle(ExecuteScriptCommand command) {
+    public void handle(ExecuteScriptCommand command) {
         CommandManager commandManager = this.app.getCommandManager();
+        ResponseWriter responseWriter = this.app.getResponseWriter();
         File scriptFile = new File(command.fileName);
         if (this.app.getScriptsStack().contains(scriptFile)) {
-            this.app.getResponseWriter().write("Попытка вызвать скрипт, который уже исполняется!");
+            responseWriter.write("Попытка вызвать скрипт, который уже исполняется!");
         }else{
             this.app.getScriptsStack().add(scriptFile);
             try (FileInputStream input = new FileInputStream("src/main/java/org/example/data/" + scriptFile + ".txt")) {
@@ -36,8 +36,8 @@ public class ExecuteScriptCommandHandler extends CommandHandler<ExecuteScriptCom
                         String line = bufferedLineReader.nextLine().trim();
                         String[] str = line.trim().split("\\s+");
                         while (str.length == 0 || str.length > 2) {
-                            this.app.getResponseWriter().write("Неверный формат ввода команды!");
-                            this.app.getResponseWriter().write(">");
+                            responseWriter.write("Неверный формат ввода команды!");
+                            responseWriter.write(">");
                             line = bufferedLineReader.nextLine().trim();
                             str = line.trim().split("\\s+");
 
@@ -47,7 +47,7 @@ public class ExecuteScriptCommandHandler extends CommandHandler<ExecuteScriptCom
                             Command execCommand = (Command) Class.forName("org.example.commands."+commandName+"Command").getConstructor(String[].class).newInstance((Object) str);
                             commandManager.executeCommand(execCommand);
                         }catch(NoClassDefFoundError | ClassNotFoundException e){
-                            this.app.getResponseWriter().write("Такой команды нет");
+                            responseWriter.write("Такой команды нет");
                         }
                         catch (InstantiationException | IllegalAccessException |
                                NoSuchMethodException e) {
@@ -55,17 +55,17 @@ public class ExecuteScriptCommandHandler extends CommandHandler<ExecuteScriptCom
                         } catch(InvocationTargetException e){
                             Throwable cause = e.getCause();
                             if(cause.getClass().equals(ExtraArgumentException.class)){
-                                this.app.getResponseWriter().write("У команды не должно быть аргумета!");
+                                responseWriter.write("У команды не должно быть аргумета!");
                             }
                             if(cause.getClass().equals(NoArgumentException.class)){
-                                this.app.getResponseWriter().write("У команды должен быть аргумет!");
+                                responseWriter.write("У команды должен быть аргумет!");
                             }
                             if(cause.getClass().equals(NumberFormatException.class)){
-                                this.app.getResponseWriter().write("Неверный формат аргумента!");
+                                responseWriter.write("Неверный формат аргумента!");
                             }
                         }
                     }catch(StopExecuteScriptException e){
-                        this.app.getResponseWriter().write("Ошибка при исполнении скрипта!");
+                        responseWriter.write("Ошибка при исполнении скрипта!");
                         break;
 
                     }
@@ -73,12 +73,11 @@ public class ExecuteScriptCommandHandler extends CommandHandler<ExecuteScriptCom
                 }
 
             } catch (FileNotFoundException e) {
-                this.app.getResponseWriter().write("Такого файла не существует!");
+                responseWriter.write("Такого файла не существует!");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             this.app.getScriptsStack().removeLast();
         }
-        return null;
     }
 }

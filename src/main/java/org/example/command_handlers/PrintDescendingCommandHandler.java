@@ -4,13 +4,12 @@ import org.example.command_support.CommandHandler;
 import org.example.command_support.ProductComparator;
 import org.example.command_support.ReverseProductComparator;
 import org.example.commands.PrintDescendingCommand;
-import org.example.controller.ReqWriter;
 import org.example.dao.CollectionManager;
 import org.example.model.Product;
 
 public class PrintDescendingCommandHandler extends CommandHandler<PrintDescendingCommand> {
     @Override
-    public String handle(PrintDescendingCommand command) {
+    public void handle(PrintDescendingCommand command) {
         CollectionManager collectionManager = this.app.getCollectionManager();
         ReverseProductComparator reverseProductComparator = new ReverseProductComparator();
         collectionManager.sort(reverseProductComparator);
@@ -19,6 +18,5 @@ public class PrintDescendingCommandHandler extends CommandHandler<PrintDescendin
         }
         ProductComparator productComparator = new ProductComparator();
         collectionManager.sort(productComparator);
-        return null;
     }
 }

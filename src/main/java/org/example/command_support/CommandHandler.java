@@ -9,5 +9,5 @@ abstract public class CommandHandler<T extends Command> {
         this.app = AppContainer.getInstance();
     }
 
-    public abstract String handle(T command);
+    public abstract void handle(T command);
 }

@@ -1,0 +1,20 @@
+package org.example.command_handlers;
+
+import org.example.command_support.CommandHandler;
+import org.example.command_support.ProductCreator;
+import org.example.commands.RemoveGreaterCommand;
+import org.example.controller.ReqWriter;
+import org.example.dao.CollectionManager;
+import org.example.model.ProductDTO;
+
+public class RemoveGraeterCommandHandler extends CommandHandler<RemoveGreaterCommand> {
+    @Override
+    public String handle(RemoveGreaterCommand command) {
+        ProductCreator productCreator = new ProductCreator();
+        ProductDTO productDTO = productCreator.createNewProduct();
+        CollectionManager collectionManager = this.app.getCollectionManager();
+        collectionManager.removeGreater(productDTO);
+        this.app.getResponseWriter().write("✓Все продукты, превышаюие введенный были удалены");
+        return null;
+    }
+}

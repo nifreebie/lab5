@@ -43,6 +43,13 @@ public class CollectionManager {
     public long generateId() {
         return ++lastId;
     }
+    public long getMaxId(){
+        long maxId = -1;
+        for(Product p: products){
+            if(p.getId() > maxId) maxId = p.getId();
+        }
+        return maxId;
+    }
 
     public int getSize() {
         return products.size();

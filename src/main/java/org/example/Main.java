@@ -46,8 +46,6 @@ public class Main {
             try {
                 String fileName = args[0];
                 productCollection = Storage.read(fileName);
-                List<Product> list = new ArrayList<>(productCollection);
-                newLastId = list.get(list.size() - 1).getId();
             } catch (IOException e) {
                 System.out.println("Ошибка при чтении файла!");
                 productCollection = new LinkedHashSet<>();
@@ -60,6 +58,7 @@ public class Main {
         }
         CollectionManager collectionManager = new CollectionManager(productCollection);
         AppContainer.getInstance().setCollectionManager(collectionManager);
+        newLastId = collectionManager.getMaxId();
         AppContainer.getInstance().getCollectionManager().setLastId(newLastId);
         ProductComparator productComparator = new ProductComparator();
         collectionManager.sort(productComparator);

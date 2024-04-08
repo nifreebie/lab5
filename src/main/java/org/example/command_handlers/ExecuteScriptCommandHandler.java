@@ -47,7 +47,7 @@ public class ExecuteScriptCommandHandler extends CommandHandler<ExecuteScriptCom
                             Command execCommand = (Command) Class.forName("org.example.commands."+commandName+"Command").getConstructor(String[].class).newInstance((Object) str);
                             commandManager.executeCommand(execCommand);
                         }catch(NoClassDefFoundError | ClassNotFoundException e){
-                            responseWriter.write("Такой команды нет");
+                            responseWriter.write("Команды "+ str[0] + " не существует!");
                         }
                         catch (InstantiationException | IllegalAccessException |
                                NoSuchMethodException e) {

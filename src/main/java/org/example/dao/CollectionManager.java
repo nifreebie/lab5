@@ -1,10 +1,13 @@
 package org.example.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.command_support.ProductComparator;
 import org.example.model.Product;
 import org.example.model.ProductDTO;
+import org.example.utils.MyLinkedHashSet;
 
 import java.util.*;
 
@@ -45,10 +48,16 @@ public class CollectionManager {
     }
     public long getMaxId(){
         long maxId = -1;
-        for(Product p: products){
-            if(p.getId() > maxId) maxId = p.getId();
+        if(products.size() == 0){
+            return lastId;
         }
-        return maxId;
+        else{
+            for(Product p: products){
+                if(p.getId() > maxId) maxId = p.getId();
+            }
+            return maxId;
+        }
+
     }
 
     public int getSize() {
@@ -56,7 +65,10 @@ public class CollectionManager {
     }
 
     public void sort(Comparator<Product> comparator) {
-        List<Product> list = new ArrayList<>(products);
+        List<Product> list = new ArrayList<>();
+        for(Product p: products){
+            list.add(p);
+        }
         list.sort(comparator);
         products = new LinkedHashSet<>(list);
 
@@ -113,7 +125,8 @@ public class CollectionManager {
     }
 
     public void save() {
-        Storage.save(products);
+        Storage.save(products,
+                "collection");
 
     }
 

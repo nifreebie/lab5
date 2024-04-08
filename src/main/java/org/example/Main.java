@@ -8,6 +8,7 @@ import org.example.dao.Storage;
 import org.example.model.Product;
 import org.example.service.AppContainer;
 import org.example.utils.BufferedLineReader;
+import org.example.utils.MyLinkedHashSet;
 import org.example.utils.ResponseWriter;
 
 import java.io.BufferedWriter;
@@ -25,6 +26,7 @@ public class Main {
         initCollection(args);
         ConsoleManager consoleManager = new ConsoleManager();
         consoleManager.run();
+
 
 
 
@@ -55,6 +57,30 @@ public class Main {
 
         } else {
             productCollection = new LinkedHashSet<>();
+        }
+        CollectionManager collectionManager = new CollectionManager(productCollection);
+        AppContainer.getInstance().setCollectionManager(collectionManager);
+        newLastId = collectionManager.getMaxId();
+        AppContainer.getInstance().getCollectionManager().setLastId(newLastId);
+        ProductComparator productComparator = new ProductComparator();
+        collectionManager.sort(productComparator);
+    }
+    private static void initMyCollection(String[] args) {
+        Set<Product> productCollection;
+        long newLastId = 0;
+        if (args.length > 0) {
+            try {
+                String fileName = args[0];
+                productCollection = Storage.readMyLinkedHashSet(fileName);
+            } catch (IOException e) {
+                System.out.println("Ошибка при чтении файла!");
+                productCollection = new MyLinkedHashSet<>();
+
+            }
+
+
+        } else {
+            productCollection = new MyLinkedHashSet<>();
         }
         CollectionManager collectionManager = new CollectionManager(productCollection);
         AppContainer.getInstance().setCollectionManager(collectionManager);

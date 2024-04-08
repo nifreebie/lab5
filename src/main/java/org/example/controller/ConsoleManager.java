@@ -39,7 +39,7 @@ public class ConsoleManager {
                 commandManager.executeCommand(command);
                 responseWriter.enterCommand();
             }catch(NoClassDefFoundError | ClassNotFoundException e){
-                responseWriter.write("Такой команды нет");
+                responseWriter.write("Команды "+ str[0] + " не существует!");
                 responseWriter.enterCommand();
             }
             catch (InstantiationException | IllegalAccessException |

@@ -5,7 +5,7 @@ import org.example.model.Product;
 
 import java.util.*;
 @NoArgsConstructor
-public class MyLinkedHashSet<T> implements Set<T>, Iterable<T> {
+public class MyLinkedHashSet<T> implements Set<T> {
     private HashMap<T, Node<T>> map = new HashMap<>();
     private Node<T> head;
     private Node<T> tail;

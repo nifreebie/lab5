@@ -4,13 +4,16 @@ import lombok.NoArgsConstructor;
 import org.example.model.Product;
 
 import java.util.*;
-@NoArgsConstructor
 public class MyLinkedHashSet<T> implements Set<T> {
-    private HashMap<T, Node<T>> map = new HashMap<>();
+    private HashMap<T, Node<T>> map;
     private Node<T> head;
     private Node<T> tail;
     private int size;
+    public MyLinkedHashSet(){
+        map = new HashMap<>();
+    }
     public MyLinkedHashSet(List<T> arrayList) {
+        map = new HashMap<>();
         for (T item : arrayList) {
             add(item);
         }
@@ -103,7 +106,7 @@ public class MyLinkedHashSet<T> implements Set<T> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return map.isEmpty();
     }
 
     @Override
@@ -128,7 +131,7 @@ public class MyLinkedHashSet<T> implements Set<T> {
     private class MyLinkedHashSetIterator implements Iterator<T> {
         private Node<T> currentNode;
 
-        MyLinkedHashSetIterator() {
+        public MyLinkedHashSetIterator() {
             currentNode = map.isEmpty() ? null : head;
         }
 

@@ -6,7 +6,7 @@ public interface Handler {
     /**
      * Applies this function to the given argument.
      *
-     * @param t the function argument
+     * @param command the function argument
      */
-    void apply(Command t);
+    void apply(Command command);
 }

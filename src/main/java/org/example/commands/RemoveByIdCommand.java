@@ -10,7 +10,9 @@ public class RemoveByIdCommand implements Command, CommandWithIdArgument {
     public RemoveByIdCommand(String[] str){
         if(str.length == 1) throw new NoArgumentException();
         if(checkArgForId(str[1])){
+            if(Long.parseLong(str[1])<=0) throw new NumberFormatException();
             this.id = Long.parseLong(str[1]);
+
         }else{
             throw new NumberFormatException();
 

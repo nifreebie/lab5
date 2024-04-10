@@ -48,7 +48,7 @@ public class CollectionManager {
     }
     public long getMaxId(){
         long maxId = -1;
-        if(products.size() == 0){
+        if(products.isEmpty()){
             return lastId;
         }
         else{

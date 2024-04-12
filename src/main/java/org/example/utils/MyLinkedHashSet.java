@@ -31,7 +31,7 @@ public class MyLinkedHashSet<T> implements Set<T> {
     }
     @Override
      public boolean add(T value){
-        if(map.containsValue(value)){
+        if(map.containsKey(value)){
             return false;
         }
         else{

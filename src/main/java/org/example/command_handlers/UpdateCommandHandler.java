@@ -19,9 +19,7 @@ public class UpdateCommandHandler extends CommandHandler<UpdateCommand> {
             if (!collectionManager.isIdExists(updateId)) {
                 responseWriter.write("Такого id не существует!");
             } else {
-                ProductCreator productCreator = new ProductCreator();
-                ProductDTO productDTO = productCreator.createNewProduct();
-                collectionManager.updateById(updateId, productDTO);
+                collectionManager.updateById(updateId, command.productDTO);
                 responseWriter.write("✓Продукт с id: " + updateId + " был обновлен");
             }
         }

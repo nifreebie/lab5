@@ -11,11 +11,9 @@ import org.example.utils.ResponseWriter;
 public class AddCommandHandler extends CommandHandler<AddCommand> {
 
     public void handle(AddCommand command) {
-        ProductCreator productCreator = new ProductCreator();
-        ProductDTO productDTO = productCreator.createNewProduct();
         CollectionManager collectionManager = this.app.getCollectionManager();
         ResponseWriter responseWriter = this.app.getResponseWriter();
-        collectionManager.add(productDTO);
+        collectionManager.add(command.productDTO);
         responseWriter.write("✓Продукт добавлен в коллекцию");
         ProductComparator productComparator = new ProductComparator();
         collectionManager.sort(productComparator);

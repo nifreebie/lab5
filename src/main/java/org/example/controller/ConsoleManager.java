@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 public class ConsoleManager {
 
 
-    public void run()  {
+    public void run() {
         AppContainer app = AppContainer.getInstance();
         BufferedLineReader bufferedLineReader = app.getBufferedLineReader();
         ResponseWriter responseWriter = app.getResponseWriter();
@@ -35,25 +35,24 @@ public class ConsoleManager {
             }
             String commandName = parseToCommandName(str[0]);
             try {
-                Command command = (Command) Class.forName("org.example.commands."+commandName+"Command").getConstructor(String[].class).newInstance((Object) str);
+                Command command = (Command) Class.forName("org.example.commands." + commandName + "Command").getConstructor(String[].class).newInstance((Object) str);
                 commandManager.executeCommand(command);
                 responseWriter.enterCommand();
-            }catch(NoClassDefFoundError | ClassNotFoundException e){
-                responseWriter.write("Команды "+ str[0] + " не существует!");
+            } catch (NoClassDefFoundError | ClassNotFoundException e) {
+                responseWriter.write("Команды " + str[0] + " не существует!");
                 responseWriter.enterCommand();
-            }
-            catch (InstantiationException | IllegalAccessException |
+            } catch (InstantiationException | IllegalAccessException |
                      NoSuchMethodException e) {
                 throw new RuntimeException(e);
-            } catch(InvocationTargetException e){
+            } catch (InvocationTargetException e) {
                 Throwable cause = e.getCause();
-                if(cause.getClass().equals(ExtraArgumentException.class)){
+                if (cause.getClass().equals(ExtraArgumentException.class)) {
                     responseWriter.write("У команды не должно быть аргумета!");
                 }
-                if(cause.getClass().equals(NoArgumentException.class)){
+                if (cause.getClass().equals(NoArgumentException.class)) {
                     responseWriter.write("У команды должен быть аргумет!");
                 }
-                if(cause.getClass().equals(NumberFormatException.class)){
+                if (cause.getClass().equals(NumberFormatException.class)) {
                     responseWriter.write("Неверный формат аргумента!");
                 }
                 responseWriter.enterCommand();
@@ -61,15 +60,16 @@ public class ConsoleManager {
 
         }
     }
-    public static String parseToCommandName(String str){
+
+    public static String parseToCommandName(String str) {
         char[] chars = str.toCharArray();
         String commandName = "";
         commandName += Character.toUpperCase(chars[0]);
-        for(int i = 1; i < chars.length; i++){
-            if(chars[i] == '_'){
-                commandName += Character.toUpperCase(chars[i+1]);
+        for (int i = 1; i < chars.length; i++) {
+            if (chars[i] == '_') {
+                commandName += Character.toUpperCase(chars[i + 1]);
                 i++;
-            }else{
+            } else {
                 commandName += chars[i];
             }
 

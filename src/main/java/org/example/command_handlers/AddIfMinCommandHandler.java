@@ -11,12 +11,10 @@ import org.example.utils.ResponseWriter;
 public class AddIfMinCommandHandler extends CommandHandler<AddIfMinCommand> {
     @Override
     public void handle(AddIfMinCommand command) {
-        ProductCreator productCreator = new ProductCreator();
-        ProductDTO productDTO = productCreator.createNewProduct();
         CollectionManager collectionManager = this.app.getCollectionManager();
         ResponseWriter responseWriter = this.app.getResponseWriter();
-        if (collectionManager.checkIfMin(productDTO)) {
-            collectionManager.add(productDTO);
+        if (collectionManager.checkIfMin(command.productDTO)) {
+            collectionManager.add(command.productDTO);
             responseWriter.write("✓Продукт добавлен в коллекцию");
             ProductComparator productComparator = new ProductComparator();
             collectionManager.sort(productComparator);

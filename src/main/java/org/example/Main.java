@@ -23,7 +23,7 @@ import java.util.Set;
 public class Main {
     public static void main(String[] args)  {
         initAppContainer();
-        initCollection(args);
+        initMyCollection(args);
         ConsoleManager consoleManager = new ConsoleManager();
         consoleManager.run();
 

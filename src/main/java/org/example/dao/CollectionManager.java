@@ -70,7 +70,7 @@ public class CollectionManager {
             list.add(p);
         }
         list.sort(comparator);
-        products = new LinkedHashSet<>(list);
+        products = new MyLinkedHashSet<>(list);
 
     }
 
@@ -126,7 +126,7 @@ public class CollectionManager {
 
     public void save() {
         Storage.save(products,
-                "collection");
+                "myCollection");
 
     }
 
